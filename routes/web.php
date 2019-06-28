@@ -13,6 +13,7 @@
 
 
 Route::prefix('webAPI')->group(function () {
+    Auth::routes();
     Route::get('/fizz', 'WebAppShellController@index')->name('buzz');
     Route::post('/buzz', 'WebAppShellController@index')->name('fizz');
     Route::get('/user', function(){

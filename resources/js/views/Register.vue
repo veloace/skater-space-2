@@ -52,7 +52,7 @@
             </v-layout>
 
         <p>
-            By clicking "Register Now", you will create an account with {{$root.appName}} and certify that you agree to our <a href="#" >Terms and Conditions</a>
+            By clicking "Register Now", you will create an account with {{$root.appName}} and certify that you agree to our <a href="/terms" target="_blank" >Terms and Conditions</a>
         </p>
         <v-btn large block color="success" @click.native="register">
             <span>Register Now</span>
@@ -63,8 +63,8 @@
 
         </p>
         <ul>
-            <li class="ml-4"><a href="#" >Cookie Policy</a></li>
-            <li class="ml-4"><a href="#" >Privacy Policy</a></li>
+            <li class="ml-4"><a href="/cookies" target="_blank">Cookie Policy</a></li>
+            <li class="ml-4"><a href="/privacy" target="_blank">Privacy Policy</a></li>
         </ul>
 
         </v-form>
@@ -107,11 +107,11 @@
             register() {
                 if(this.$refs.form.validate())
                 {
-                    this.$root.auth.register(this.newUser.email,this.newUser.name,this.newUser.password, this.newUser.password_confirmation);
+                    this.$root.auth.register(this.newUser.name,this.newUser.email, this.newUser.password, this.newUser.password_confirmation);
                 }
                 else
                 {
-                    alert('form is NOT valid')
+                    this.$root.displayNotification('Please check the registration form for errors and try again. Remember, all fields are required.','red');
                 }
             },
 

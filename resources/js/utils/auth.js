@@ -25,7 +25,17 @@ class AuthService {
 
     register(name, email, password, password_confirmation)
     {
-
+        axios.post('/webAPI/register',{
+            name:name,
+            email:email,
+            password:password
+        })
+            .then((response)=>{
+                console.log(response);
+            })
+            .catch((error)=>{
+            console.log(error);
+            })
     }
 
      boot()
