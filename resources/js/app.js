@@ -10,16 +10,18 @@ import VueRouter from 'vue-router';
 import router  from './router';
 import Vuetify from 'vuetify'
 import VueAnalytics from 'vue-analytics'
+import Vuelidate from 'vuelidate'
 
 window.Vue = require('vue');
 
 window.Vue.use(VueAnalytics, {
-    id: process.env.MIX_GOOGLE_ANALYTICS_SITE,
+    id: process.env.MIX_GOOGLE_ANALYTICS_SITE || 'test',
     checkDuplicatedScript: true,
     router
 });
 window.Vue.use(Vuetify);
 window.Vue.use(VueRouter);
+window.Vue.use(Vuelidate);
 
 window.appName =process.env.MIX_APP_NAME;
 

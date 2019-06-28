@@ -58,14 +58,15 @@
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </v-toolbar>
             <v-content>
-                <v-container fill-height>
+                <v-container>
                     <router-view>
 
                     </router-view>
                 </v-container>
             </v-content>
             <v-footer app color="#1c4888">
-                <span class="white--text">&copy; 2019 {{config('app.name')}}</span>
+
+                <span class="white--text pa-1">&copy; 2019 {{config('app.name')}}</span>
             </v-footer>
 
             <v-dialog v-model="isLoading" persistent width="300">
@@ -80,7 +81,8 @@
             <v-snackbar v-model="notification.show"  :timeout="notification.timeout" :color = "notification.color" :multi-line="true">@{{notification.content}}
                 <v-btn color="white" flat @click="notification.show = false">
                     Close
-                </v-btn></v-snackbar>
+                </v-btn>
+            </v-snackbar>
         </v-app>
     </div>
     <script src="{{ mix('/js/app.js') }}"></script>

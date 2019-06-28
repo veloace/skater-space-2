@@ -23,7 +23,7 @@ class AuthService {
 
     }
 
-    register()
+    register(name, email, password, password_confirmation)
     {
 
     }
