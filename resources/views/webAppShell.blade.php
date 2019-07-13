@@ -45,14 +45,69 @@
         </div>
         <v-app>
             <v-navigation-drawer app fixed v-model="drawer">
-                    <v-list three-line>
-                        <v-list-tile flat color="#11C1D8">
-                            <v-list-tile-content  color="#11C1D8">
-                                <v-list-tile-title>@{{appName}}</v-list-tile-title>
-                                <v-list-tile-sub-title>You are not logged in. Login or Register to get started.</v-list-tile-sub-title>
+                <v-toolbar flat dark  class="blue darken-4">
+                    <v-list class="pa-0" >
+                        <v-list-tile two-line class="title pt-2 pb-3" avatar>
+
+                            <v-list-tile-avatar>
+                                <img src="//skater.space/img/navLogoLg.png">
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title>@{{$root.appName}}</v-list-tile-title>
+                                <p>
+                                    <span v-if="$root.auth.user.is_authenticated">Hi, @{{$root.auth.user.name}}!</span>
+                                    <span v-else>Hello, Guest!</span>
+                                </p>
                             </v-list-tile-content>
                         </v-list-tile>
+
+
                     </v-list>
+                </v-toolbar>
+
+
+                <v-list class="pt-0" dense>
+                    <v-list-tile :to="{name:'home'}">
+                        <v-list-tile-action>
+                            <v-icon>dashboard</v-icon>
+                        </v-list-tile-action>
+
+                        <v-list-tile-content>
+                            <v-list-tile-title>Home</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+
+                </v-list>
+                <v-list class="pt-0 grey darken-3 white--text" dense class="blue">
+                    <v-list-tile dark v-if="!$root.auth.user.is_authenticated" :to="{name:'login'}">
+                        <v-list-tile-action>
+                            <v-icon>account_circle</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Login</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+
+                    <v-list-tile dark v-if="!$root.auth.user.is_authenticated" :to="{name:'register'}">
+                        <v-list-tile-action>
+                            <v-icon>person_add</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Register</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile dark v-else @click="$root.auth.logout">
+                        <v-list-tile-action>
+                            <v-icon>logout</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Logout</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+
+
+
+                </v-list>
             </v-navigation-drawer>
             <v-toolbar app>
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>

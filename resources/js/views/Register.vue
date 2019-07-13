@@ -1,8 +1,8 @@
 <template>
 
         <v-form lazy-validation v-model="valid" ref="form" >
-            <header class="text-center">
-                <h1 class="logoed">
+            <header class="text-xs-center">
+                <h1>
                     Sign Up For {{$root.appName}}
                 </h1>
                 <p>Sign up now to see how we can help you make your life much easier!
@@ -18,6 +18,8 @@
                             label="Full Name"
                             v-model="newUser.name"
                             required
+                            :error-messages="errors.name"
+                            @change="errors.name=null"
                     ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 pa-4>
@@ -25,7 +27,9 @@
                             :rules="emailRules"
                             label="Email Address"
                             v-model="newUser.email"
+                            :error-messages="errors.email"
                             required
+                            @change="errors.email=null"
                     ></v-text-field>
                 </v-flex>
             </v-layout>
@@ -37,6 +41,8 @@
                             v-model="newUser.password"
                             required
                             type="password"
+                            :error-messages="errors.password"
+                            @change="errors.password=null"
                     ></v-text-field>
                 </v-flex>
                 <v-flex xs12 sm6 pa-4>
@@ -46,7 +52,8 @@
                             v-model="newUser.password_confirmation"
                             required
                             type="password"
-
+                            :error-messages="errors.password_confirmation"
+                            @change="errors.password_confirmation=null"
                     ></v-text-field>
                 </v-flex>
             </v-layout>
@@ -54,7 +61,7 @@
         <p>
             By clicking "Register Now", you will create an account with {{$root.appName}} and certify that you agree to our <a href="/terms" target="_blank" >Terms and Conditions</a>
         </p>
-        <v-btn large block color="success" @click.native="register">
+        <v-btn large block color="success" @click.native="register" :disabled="$root.isLoading">
             <span>Register Now</span>
         </v-btn>
 
@@ -91,6 +98,13 @@
                     (v) => !!v || 'You must confirm your password',
                     (v) => v && v === this.newUser.password || 'Passwords Must Match'
                 ],
+                errors:
+                    {
+                        email:null,
+                        password:null,
+                        password_confirmation:null,
+                        name:null
+                    },
                 legalDocument:null,
                 showLegalDocument:false,
                 legalDocumentIsLoading:false,
@@ -107,7 +121,27 @@
             register() {
                 if(this.$refs.form.validate())
                 {
-                    this.$root.auth.register(this.newUser.name,this.newUser.email, this.newUser.password, this.newUser.password_confirmation);
+                this.$root.isLoading=true;
+                    this.$root.auth.register(this.newUser.name,this.newUser.email, this.newUser.password, this.newUser.password_confirmation)
+                        .then((result)=>{
+                            if(result.success)
+                            {//if successful
+                                this.$root.isLoading=false;
+                                this.$root.displayNotification(result.message,'success');
+                                this.$router.push({name:'home'});
+                            }
+                            else
+                            {//not successful
+                                this.$root.isLoading=false;
+                                //manually set errors
+                                this.$root.displayNotification(result.message,'red');
+                                this.errors.email=result.errors.email;
+                                this.errors.password=result.errors.password;
+                                this.errors.password_confirmation=result.errors.password_confirmation;
+                                this.errors.name=result.errors.name;
+                            }
+
+                        })
                 }
                 else
                 {

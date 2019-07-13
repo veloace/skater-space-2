@@ -24,3 +24,7 @@ Route::prefix('webAPI')->group(function () {
 });
 
 Route::get('/{vue_capture?}', 'WebAppShellController@index')->where('vue_capture', '[\/\w\.-]*')->name('app');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
